@@ -1,24 +1,37 @@
 package com.example.jzhou.assigment3;
 
+import android.Manifest;
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-    public Vibrator v;
+    public static Context context;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +48,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //vir_thread = new Vibrate_thread();
-        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        while(true){
-            v.vibrate(500);
-        }
 
+        ContentResolver cr = getContentResolver();
+        Intent intent = new Intent(this, CalendarService.class);
+        startService(intent);
+        Log.d("DEBUGGING", "123123123123");
     }
 
     @Override
@@ -66,31 +78,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class Calendar_service extends Service{
 
-
-
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            Calendar cal = Calendar.getInstance();
-        }
-
-        @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            return super.onStartCommand(intent, flags, startId);
-        }
-
-        @Nullable
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
-
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-        }
-    }
 
 }
